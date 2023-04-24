@@ -1,0 +1,98 @@
+{% extends '_base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="card column is-half mt-4">
+        <form action="{% url 'books:create' %}" method="post">
+            {% csrf_token %}
+            <h3>作家</h3>
+            <div class="field">
+                <label class="label">名前</label>
+                <div class="control">
+                    {{ form.name | add_class:'input' | add_error_class:'is-danger' }}
+                </div>
+                {% if form.name.errors %}
+                {% for error in form.name.errors %}
+                <p class="help is-danger">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="field">
+                <label class="label">生年月日</label>
+                <div class="control">
+                    {{ form.birthday | add_class:'input' | add_error_class:'is-danger' }}
+                </div>
+                {% if form.birthday.errors %}
+                {% for error in form.birthday.errors %}
+                <p class="help is-danger">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <h3>著書</h3>
+            {{ formset.management_form }}
+            {% for book_form in formset %}
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">名前</label>
+                        <div class="control">
+                            {{ book_form.name | add_class:'input' | add_error_class:'is-danger' }}
+                        </div>
+                        {% if book_form.name.errors %}
+                        {% for error in book_form.name.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">出版日</label>
+                        <div class="control">
+                            {{ book_form.published | add_class:'input' | add_error_class:'is-danger' }}
+                        </div>
+                        {% if book_form.published.errors %}
+                        {% for error in book_form.published.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">評価</label>
+                        <div class="control">
+                            {{ book_form.rate | add_class:'select' }}
+                        </div>
+                        {% if book_form.rate.errors %}
+                        {% for error in book_form.rate.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% if formset.non_form_errors %}
+            {% for error in formset.non_form_errors %}
+            <article class="message is-danger mb-2">
+                <div class="message-body">
+                    {{ error }}
+                </div>
+            </article>
+            {% endfor %}
+            {% endif %}
+            <div class="is-flex is-justify-content-flex-end">
+                <button class="button is-primary" type="submit">作成</button>
+            </div>
+        </form>
+
+        <div class="panel mt-5">
+            {% for object in object_list %}
+            <div class="panel-block">{{ object.name }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "django-formset"
+version = "0.1.0"
+description = ""
+authors = ["joshua-hashimoto <dropscar041205@gmail.com>"]
+readme = "README.md"
+packages = [{include = "django_formset"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2"
+django-widget-tweaks = "^1.4.12"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.262"
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "migrations",
+]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "B",
+    "PL",
+    "PD",
+    "NPY",
+    "DJ",
+    "RUF",
+    "UP",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
