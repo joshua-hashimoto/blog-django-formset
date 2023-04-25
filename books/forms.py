@@ -44,15 +44,20 @@ class BookForm(forms.ModelForm):
 
 
 class BookBaseFormset(forms.BaseInlineFormSet):
-    def map_rates(self, form):
-        rate = form.cleaned_data.get("rate")
-        return rate
+    def get_filled_forms(self, forms):
+        filtered = filter(lambda form: form.cleaned_data.get("name"), forms)
+        return list(filtered)
+
+    def get_names(self, forms):
+        names = map(lambda form: form.cleaned_data.get("name"), forms)
+        return list(names)
 
     def clean(self):
-        rates = map(self.map_rates, self.forms)
-        is_all_same_values = len(list(set(rates))) == 1
-        if is_all_same_values:
-            raise forms.ValidationError("全て同じ評価にはできません。")
+        filtered_forms = self.get_filled_forms(self.forms)
+        names = self.get_names(filtered_forms)
+        has_same_book_name = len(set(names)) == 1 and len(filtered_forms) > 1
+        if has_same_book_name:
+            raise forms.ValidationError("同じタイトルの本が存在するようです。")
 
 
 BookFormset = forms.inlineformset_factory(
@@ -60,7 +65,6 @@ BookFormset = forms.inlineformset_factory(
     Book,
     form=BookForm,
     formset=BookBaseFormset,
-    fields=("name", "published", "rate",),
     can_delete=True,
     extra=3
 )

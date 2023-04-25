@@ -87,12 +87,14 @@
                 <button class="button is-primary" type="submit">作成</button>
             </div>
         </form>
+    </div>
+</div>
 
-        <div class="panel mt-5">
-            {% for object in object_list %}
-            <div class="panel-block">{{ object.name }}</div>
-            {% endfor %}
-        </div>
+<div class="columns is-centered">
+    <div class="panel column is-half mt-5">
+        {% for object in object_list %}
+        <div class="panel-block">{{ object.name }}</div>
+        {% endfor %}
     </div>
 </div>
 {% endblock content %}
